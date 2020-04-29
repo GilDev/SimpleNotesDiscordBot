@@ -72,26 +72,29 @@ async def note_error(ctx, error):
 @bot.command()
 async def writenote(ctx, *, args):
     try:
-        (noteName, content) = args.split(maxsplit=1)
+        (name, content) = args.split(maxsplit=1)
     except ValueError:
         await ctx.send("You must provide a content for the note.\nUsage: `!writenote <name> <content>`")
         return
 
-    noteName = noteName.lower().replace(" ", "-")
+    name = name.lower().replace(" ", "-")
     content = content.strip()
-    if len(noteName) > 30:
+    if len(name) > 30:
         await ctx.send("Note name cannot exceed 30 characters.")
         return
 
     # Write notes to file
     notes = Notes(getPath(ctx))
-    notes.write(noteName, content)
+    notes.write(name, content)
+    print(
+        f"Wrote note “{name}” on server “{ctx.guild.name}” ({ctx.guild.id}): {content}")
 
-    await ctx.send(f"Successfully saved note “{noteName}”, use `!note {noteName}` to read it!")
+    await ctx.send(f"Successfully wrote note “{name}”, use `!note {name}` to read it!")
 
 
 @writenote.error
 async def writenote_error(ctx, error):
+    print(f"Error on !writenote: {error}")
     await ctx.send("Usage: `!writenote <name> <content>`")
 
 
@@ -102,6 +105,8 @@ async def deletenote(ctx, name):
 
     if notes.delete(name):
         message = f"Note “{name}” successfully deleted!"
+        print(
+            f"Deleted note “{name}” on server “{ctx.guild.name}” ({ctx.guild.id})")
     else:
         message = f"Note {name} does not exist.\nUse `!notes to get a list of available notes."
 
@@ -110,6 +115,7 @@ async def deletenote(ctx, name):
 
 @deletenote.error
 async def deletenote_error(ctx, error):
+    print(f"Error on !deletenote: {error}")
     await ctx.send("Usage: `!deletenote <name>`\nUse `!notes` to get a list of available notes.")
 
 bot.run(token)
