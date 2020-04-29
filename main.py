@@ -77,6 +77,10 @@ async def writenote(ctx, *, args):
         await ctx.send("You must provide a content for the note.\nUsage: `!writenote <name> <content>`")
         return
 
+    if not name.replace("-", "").replace("_", "").isalpha():
+        await ctx.send("Note name can only contain letters, “-” and “_”.")
+        return
+
     name = name.lower().replace(" ", "-")
     content = content.strip()
     if len(name) > 30:
@@ -102,6 +106,10 @@ async def writenote_error(ctx, error):
 async def deletenote(ctx, name):
     name = name.lower().replace(" ", "-")
     notes = Notes(getPath(ctx))
+
+    if not name.replace("-", "").replace("_", "").isalpha():
+        await ctx.send("Note name can only contain letters, “-” and “_”.")
+        return
 
     if notes.delete(name):
         message = f"Note “{name}” successfully deleted!"
