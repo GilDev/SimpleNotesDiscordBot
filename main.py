@@ -14,28 +14,32 @@ with open("discord_token.txt", "r") as f:
 
 bot = commands.Bot(command_prefix='!')
 
-# TODO: Add `!help` command or comment code properly to use the default one
-# "This is a simple bot to take notes, here are the available commands:\n"
-# "* `!help`: shows this help message\n"
-# "\n"
-# "* `!notes`: show a list of all notes available to read\n"
-# "* `!note <name>: read note “<name>”\n"
-# "* `!writenote <name> <content>`: write <content> to note “name”, replacing the current context if the note already exists\n"
-# "* `!deletenote <name>`: delete note <name>\n"
-# "\n"
-# "Made with love by [GilDev](https://gildev.dev)"
-
 
 @bot.event
 async def on_ready():
     print(f"Connected as {bot.user}!")
 
 
+bot.remove_command("help")
+@bot.command()
+async def help(ctx):
+    await ctx.send("```\n"
+                   "This is a simple bot to take notes, here are the available commands:\n"
+                   "\n"
+                   "  !help                       - shows this help message\n"
+                   "  !notes                      - show a list of all notes available to read\n"
+                   "  !note <name>                - read note <name>\n"
+                   "  !writenote <name> <content> - write <content> to note <name>, replacing the current content if the note already exists\n"
+                   "  !deletenote <name>          - delete note <name>\n"
+                   "\n"
+                   "Made with ❤️ by GilDev! (https://gildev.dev/projets/simplenotesdiscordbot)\n"
+                   "```")
+
+
 @bot.command()
 async def notes(ctx):
-    """Shows a list of all notes available to read"""
     # TODO: Make this an embed so commands to read each note can be embedded in
-    #       notes names
+    #       notes names (not sure that's possible)
 
     notes = Notes(getPath(ctx)).getAll()
     if notes:
@@ -52,8 +56,6 @@ async def notes(ctx):
 # TODO: multiple aliases for this command (readnote, getnote)
 @bot.command()
 async def note(ctx, name):
-    """Read a note"""
-
     name = name.lower().replace(" ", "-")
     content = Notes(getPath(ctx)).get(name)
     if content:
