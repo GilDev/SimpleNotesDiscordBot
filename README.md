@@ -7,7 +7,7 @@ This was inspired by Telegram bots that I often see on some channels of which I�
 
 ## Requirements
 
-* [Python 3](https://www.python.org) (tested on 3.7.7)
+* [Python 3](https://www.python.org) (tested on 3.7.3)
 * [Discord.py](https://github.com/Rapptz/discord.py) (tested on 1.3.3)
 
 
