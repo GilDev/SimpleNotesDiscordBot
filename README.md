@@ -1,8 +1,9 @@
-SimpleNotes Discord Bot
-=======================
+# SimpleNotes Discord Bot — **UNMAINTAINED**
 
 A bot that allows anyone on a server to write simple text notes for anyone to read.  
 This was inspired by Telegram bots that I often see on some channels of which I’m a member.
+
+> The bot had a bug where it would crash after being used on multiple servers at once. I don’t really have the time nor interest to fix it but feel free to try if you want to!
 
 
 ## Requirements
